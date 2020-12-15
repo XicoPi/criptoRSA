@@ -1,24 +1,26 @@
 #!/bin/python3
 import random
+import time
 
-
-
+def genCandidate(n):
+    return random.randint(0,2**n-1)
 
 def genPrime(iterationNumber, N):
-    limit =(10 ** (N)) -1 
-    primeTest = random.randint(0,limit)
+    t0 = time.time()
+    primeTest = genCandidate(N)
     i = 0
     while (i < iterationNumber):
-        baseTest = random.randint(0, limit)
+        baseTest = genCandidate(N)
         test = pow(baseTest,(primeTest-1), primeTest)
         if (test == 1):
             i += 1
         else:
-            primeTest = random.randint(0,limit)
+            primeTest = genCandidate(N)
             i = 0
-    return primeTest
+    tf = time.time()
+    return (tf - t0, primeTest)
     
 if __name__ == '__main__':
 
-    N = 331 #nuber of digital digits. Example: RSA-100 -> N = 100
+    N = 2048 #nuber of binary digits (bits). Example: RSA-100 -> N = 330 bits
     print (str(genPrime(100,N)))
