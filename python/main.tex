@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage{url}
+
+\geometry{legalpaper,  margin=1in}
+
+\title{Cryptosystems implementations: RSA}
+\author{Enric Garcia}
+\date{december 2020}
+
+\usepackage{natbib}
+\usepackage{graphicx}
+
+\begin{document}
+
+\maketitle
+\section{Source code}
+\paragraph{repository:}
+\url{https://github.com/XicoPi/criptoRSA}
+
+\section{Introduction on public key cryptography}
+\subsection{Ideas of cryptography}
+\paragraph{}
+One of the main problems along the history was the cryptosystem was part of the secret key on most cases. So if you discover it then it is so easy to decrypt the secret or get the message.
+\paragraph{}
+That's Why in modern cryptography we assume all know the cryptosystems and the algorithms. Therefore, the key should be the secret part of the cryptosystem. 
+\paragraph{}
+The first idea that comes on mind was to have the same key for the two people that are going to talk in secret. This is the case of a symmetric key cryptosystem. In this type of systems we have the key exchanging problem which solution could be the Diffie Hellman algorithm.
+\subsection{Public cryptography}
+\paragraph{}
+As seen in the last section, there is a problem with the exchanging of the secret keys. But is not the only problem: There is the fact that you can not control the other person to share or control the symmetric key so It is a problem that makes these cryptosystems so volatile in time and only useful for short communications and renewing the keys on every of each one.
+\paragraph{}
+The best solutions for these cases is the public key cryptography. The characteristics are the following:
+\begin{enumerate}
+    \item One secret KEY (K+): It is secret and It is only available for the secret key's owner.
+    \item One public KEY (K-): It is public and it can be known by every one. In the real life It is signed by an certify authority to ensure identifying the public key's owner.
+    \item Algorithm f(K): It is the function or formula to follow to transform the message applying one of the keys. f(K+) for encrypt and send a secret to one person (privacy) and f(K-) to sing a message (identification).
+\end{enumerate}
+\subsection{Public cryptography synthesis example}
+\paragraph{}
+First of all, We have two people which want to talk each other in a private conversation in a insecure channel. Let's name the receiver Alice and the transmitter Bob.
+\paragraph{}
