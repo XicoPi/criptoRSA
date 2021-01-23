@@ -8,7 +8,7 @@ def modInv(a, module):
         x = 1
         
         while (a > 1):
-            quotient = int(a / residue)
+            quotient = a // residue
             temp = residue
 
             residue = a % residue
