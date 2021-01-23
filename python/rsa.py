@@ -2,6 +2,7 @@
 import random
 import time
 from modInv import *
+import math
 
 iterationNumber = 10000
 
@@ -57,11 +58,14 @@ class RSAKeys(object):
         n = p * q
 
         d = self.__genCandidate()
+        while (d >= n or math.gcd(d,(p-1)*(q-1)) != 1):
+            pass
+        
         e = modInv(d, (p-1)*(q-1))
         
-        while (e == 0): #or (d * e %((p-1)*(q-1))) != 1):
-            d = self.__genCandidate()
-            e = modInv(d, (p-1)*(q-1))
+        #while (e == 0): #or (d * e %((p-1)*(q-1))) != 1):
+        #    d = self.__genCandidate()
+        #    e = modInv(d, (p-1)*(q-1))
         self.__paraphrase = paraphrase
         self.public = (n, e)
         self.__private = (n, d)
@@ -110,16 +114,22 @@ if __name__ == '__main__':
 
     #N = 330 #nuber of binary digits (bits). Example: RSA-100 -> N = 330 bits
     #print (str(genKeys(N)))
-    keys = RSAKeys(1024)
-    if (False):
-        keys.genKeys("enrico")
-        keys.save_keys_to_file("key.dat", "enrico")
-    else:
-        keys.load_keys_from_file("key.dat", "enrico")
-        #print(keys.public)
+    new = input("Do you want to generate new keys? (y/N): ")
     
-    msg = "HOLA QUE TAL"
-    secret = rsa_encrypt(keys.public, msg)
-    print(secret)
-    msg = rsa_decrypt(keys.getPrivateKey("enrico"), secret)
-    print(msg)
+    keys = RSAKeys(1024)
+    if (new == "y" or new == "Y"):
+        par = input("Put a paraphrase: ")
+        keys.genKeys(par)
+        keys.save_keys_to_file("key.dat", par)
+    else:
+        par = input("Enter your paraphrase to load the Keys: ")
+        if (keys.load_keys_from_file("key.dat", par) == -1):
+            print("Wrong Paraphrase.")
+        
+        else:
+            
+            msg = input("Put the message to encrypt: ")
+            secret = rsa_encrypt(keys.public, msg)
+            print(secret)
+            msg = rsa_decrypt(keys.getPrivateKey(par), secret)
+            print(msg)
